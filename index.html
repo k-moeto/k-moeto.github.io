@@ -296,32 +296,34 @@
         </footer>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // --- 要素の取得 ---
-            const welcomeScreen = document.getElementById('welcome-screen');
-            const mainContent = document.getElementById('main-content');
-            const enterButton = document.getElementById('enter-button');
-            const welcomeNameInput = document.getElementById('welcome-name-input');
-            const guestbookList = document.getElementById('guestbook-list');
-            
-            const GUESTBOOK_KEY = 'portfolio_guestbook_names_v5'; // キーを更新
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- 要素の取得 ---
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const mainContent = document.getElementById('main-content');
+        const enterButton = document.getElementById('enter-button');
+        const welcomeNameInput = document.getElementById('welcome-name-input');
+        const guestbookList = document.getElementById('guestbook-list');
+        
+        // Step 3でコピーしたウェブアプリのURLをここに貼り付け
+        const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzcQ0Cw7rBxlm2FLR_m_o3jIC7ZtbHezQTQJN_AVg8bvqRDeL4o4Udo6Fzq0GeOPM2d2w/exec';
 
-            // --- 関数定義 ---
+        // --- 関数定義 ---
 
-            /**
-             * 芳名を画面に表示する関数
-             */
-            const displayNames = () => {
-                const names = JSON.parse(localStorage.getItem(GUESTBOOK_KEY)) || [];
-                guestbookList.innerHTML = ''; // 表示をクリア
+        /**
+         * 芳名を画面に表示する関数 (GASから取得)
+         */
+        const displayNames = async () => {
+            guestbookList.innerHTML = ''; // 表示をクリア
+            try {
+                const response = await fetch(GAS_WEB_APP_URL);
+                const names = await response.json();
 
                 if (names.length > 0) {
                     names.forEach(name => {
                         const nameSpan = document.createElement('span');
                         nameSpan.className = 'guest-name';
-                        // サニタイズ
-                        nameSpan.textContent = name.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                        nameSpan.textContent = name;
                         guestbookList.appendChild(nameSpan);
                     });
                 } else {
@@ -330,46 +332,55 @@
                     noNameMessage.style.color = 'var(--secondary-color)';
                     guestbookList.appendChild(noNameMessage);
                 }
-            };
+            } catch (error) {
+                console.error('名前の読み込みに失敗しました:', error);
+                guestbookList.textContent = '記録の読み込みに失敗しました。';
+            }
+        };
 
-            /**
-             * メインコンテンツを表示し、名前を記帳する関数
-             */
-            const showMainContentAndSign = () => {
-                const visitorName = welcomeNameInput.value.trim();
-                if (visitorName === "") {
-                    alert('お名前を入力してください。');
-                    return;
-                }
+        /**
+         * メインコンテンツを表示し、名前を記帳する関数 (GASに送信)
+         */
+        const showMainContentAndSign = async () => {
+            const visitorName = welcomeNameInput.value.trim();
+            if (visitorName === "") {
+                alert('お名前を入力してください。');
+                return;
+            }
 
-                // --- 記帳処理 ---
-                const names = JSON.parse(localStorage.getItem(GUESTBOOK_KEY)) || [];
-                // 同じ名前がなければ追加
-                if (!names.includes(visitorName)) {
-                    names.push(visitorName);
-                    localStorage.setItem(GUESTBOOK_KEY, JSON.stringify(names));
-                }
+            // --- 記帳処理 (GASにPOSTリクエストを送信) ---
+            try {
+                await fetch(GAS_WEB_APP_URL, {
+                    method: 'POST',
+                    // mode: 'no-cors', // この行を削除しました！
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ name: visitorName }),
+                });
+            } catch (error) {
+                console.error('記帳に失敗しました:', error);
+            }
 
-                // --- 画面切り替え処理 ---
-                welcomeScreen.style.opacity = '0';
-                setTimeout(() => {
-                    welcomeScreen.style.display = 'none';
-                }, 500);
+            // --- 画面切り替え処理 ---
+            welcomeScreen.style.opacity = '0';
+            setTimeout(() => {
+                welcomeScreen.style.display = 'none';
+            }, 500);
 
-                mainContent.style.display = 'block';
-                displayNames(); // 記帳リストを表示
-            };
+            mainContent.style.display = 'block';
+            displayNames(); // 記帳リストを再読み込みして表示
+        };
 
-
-            // --- イベントリスナー ---
-            enterButton.addEventListener('click', showMainContentAndSign);
-            
-            welcomeNameInput.addEventListener('keypress', (event) => {
-                if (event.key === 'Enter') {
-                    showMainContentAndSign();
-                }
-            });
+        // --- イベントリスナー ---
+        enterButton.addEventListener('click', showMainContentAndSign);
+        
+        welcomeNameInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                showMainContentAndSign();
+            }
         });
-    </script>
+    });
+</script>
 </body>
 </html>
