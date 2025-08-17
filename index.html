@@ -298,28 +298,22 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // --- 要素の取得 ---
         const welcomeScreen = document.getElementById('welcome-screen');
         const mainContent = document.getElementById('main-content');
         const enterButton = document.getElementById('enter-button');
         const welcomeNameInput = document.getElementById('welcome-name-input');
         const guestbookList = document.getElementById('guestbook-list');
         
-        // Step 3でコピーしたウェブアプリのURLをここに貼り付け
-        const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxy5LjyeoQxEv9jms0GO9yRXUbTyvX7UtLI99DNardPCIq5h3wgJomzVIEw4uzMHDxOmw/exec';
+        // このURLは、次のステップで新しく取得したものに書き換えます
+        const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyXIqavtdOKKMfHaFyWi0Ziblf94TqjK0M0KOoXFcV3g4Ka_6GJwrrQpZTecD12FIAzsA/exec';
 
-        // --- 関数定義 ---
-
-        /**
-         * 芳名を画面に表示する関数 (GASから取得)
-         */
         const displayNames = async () => {
-            guestbookList.innerHTML = ''; // 表示をクリア
+            guestbookList.innerHTML = '';
             try {
                 const response = await fetch(GAS_WEB_APP_URL);
                 const names = await response.json();
 
-                if (names.length > 0) {
+                if (names && names.length > 0) {
                     names.forEach(name => {
                         const nameSpan = document.createElement('span');
                         nameSpan.className = 'guest-name';
@@ -338,9 +332,6 @@
             }
         };
 
-        /**
-         * メインコンテンツを表示し、名前を記帳する関数 (GASに送信)
-         */
         const showMainContentAndSign = async () => {
             const visitorName = welcomeNameInput.value.trim();
             if (visitorName === "") {
@@ -348,31 +339,29 @@
                 return;
             }
 
-            // --- 記帳処理 (GASにPOSTリクエストを送信) ---
             try {
+                // --- ▼ここから変更▼ ---
+                // ヘッダーを指定せず、名前をテキストとしてそのまま送信する
                 await fetch(GAS_WEB_APP_URL, {
                     method: 'POST',
-                    // mode: 'no-cors', // この行を削除しました！
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ name: visitorName }),
+                    mode: 'cors', // modeはcorsのまま
+                    body: visitorName // JSON.stringifyをやめ、文字列を直接送る
                 });
+                // --- ▲ここまで変更▲ ---
+
             } catch (error) {
                 console.error('記帳に失敗しました:', error);
             }
 
-            // --- 画面切り替え処理 ---
             welcomeScreen.style.opacity = '0';
             setTimeout(() => {
                 welcomeScreen.style.display = 'none';
             }, 500);
 
             mainContent.style.display = 'block';
-            displayNames(); // 記帳リストを再読み込みして表示
+            displayNames();
         };
 
-        // --- イベントリスナー ---
         enterButton.addEventListener('click', showMainContentAndSign);
         
         welcomeNameInput.addEventListener('keypress', (event) => {
