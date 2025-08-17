@@ -1,1 +1,379 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fontsからフォントを読み込み -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+    
+    <title>あなたの名前 - ポートフォリオ</title>
+    
+    <style>
+        /* --- 基本スタイルと変数定義 --- */
+        :root {
+            --primary-color: #2c2c2c; /* メインの文字色 */
+            --secondary-color: #7f7f7f; /* サブの文字色 */
+            --accent-color: #c1292e; /* アクセントカラー: 郵便局の赤 */
+            --background-color: #fdfdfd;
+            --border-color: #eaeaea;
+        }
+
+        body {
+            font-family: 'Noto Serif JP', serif;
+            font-size: 14px; /* 全体の文字サイズを少し小さく */
+            line-height: 1.9;
+            color: var(--primary-color);
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 40px 20px; /* 上下の余白を追加 */
+            display: flex;
+            justify-content: center;
+            align-items: center; /* 垂直方向も中央揃えに */
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* --- ウェルカム画面 --- */
+        #welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--background-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 100;
+            transition: opacity 0.5s ease-out;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #welcome-name-input {
+            font-family: 'Noto Serif JP', serif;
+            border: none;
+            border-bottom: 1px solid var(--border-color);
+            background: transparent;
+            font-size: 1.1em;
+            padding: 8px;
+            width: 100%;
+            max-width: 280px;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+
+        #welcome-name-input:focus {
+            outline: none;
+            border-bottom-color: var(--accent-color);
+        }
+
+        #enter-button {
+            font-family: 'Noto Serif JP', serif;
+            margin-top: 30px;
+            padding: 8px 28px;
+            font-size: 0.9em;
+            color: var(--primary-color);
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        #enter-button:hover {
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+
+        /* --- メインコンテンツ --- */
+        #main-content {
+            display: none; /* 初期状態では非表示 */
+            width: 100%;
+            max-width: 860px; /* 全体の幅を少し広げる */
+            margin: auto; /* 中央揃えを確実にする */
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- 2カラムレイアウト --- */
+        .profile-container {
+            display: flex;
+            gap: 60px; /* カラム間の余白を広げる */
+            align-items: flex-start; /* 上端を揃える */
+        }
+
+        .left-column {
+            flex: 0 0 220px; /* 左カラムの幅を固定 */
+            text-align: center;
+        }
+
+        .right-column {
+            flex: 1;
+        }
+
+        .profile-img {
+            width: 220px; /* 写真を大きく */
+            height: 220px; /* 写真を大きく */
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+
+        .left-column h1 {
+            margin: 0;
+            font-size: 1.5em;
+            font-weight: 700;
+        }
+
+        .left-column p {
+            color: var(--secondary-color);
+            font-size: 0.9em;
+            margin-top: 5px;
+            line-height: 1.5;
+        }
+
+        /* --- セクション共通 --- */
+        main {
+            padding: 0;
+        }
+
+        section {
+            padding: 4px 0; /* ブロック間の余白を詰める */
+        }
+        
+        p, ul {
+            font-weight: 400; /* 細文字 */
+            font-size: 0.9em; /* 文字を小さく */
+            line-height: 1.8; /* 行間を詰める */
+        }
+
+        h2 {
+            font-size: 0.95em; /* 文字を小さく */
+            font-weight: 700; /* 太文字 */
+            margin-top: 0;
+            margin-bottom: 8px; /* 余白を詰める */
+            letter-spacing: 0.05em;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+
+        li {
+            margin-bottom: 4px; /* 余白を詰める */
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            border-bottom: 1px solid var(--accent-color);
+            transition: background-color 0.3s;
+            padding-bottom: 1px;
+        }
+
+        a:hover {
+            background-color: var(--accent-color);
+        }
+
+        /* --- フッターと芳名帳リスト --- */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            font-size: 0.8em;
+            color: var(--secondary-color);
+        }
+        
+        #guestbook-section {
+            padding: 30px 0;
+            border-top: 1px solid var(--border-color);
+            margin-top: 30px;
+        }
+
+        #guestbook-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px 20px;
+            padding: 10px 0;
+        }
+
+        .guest-name {
+            font-size: 0.95em;
+            color: var(--primary-color);
+        }
+        
+        /* --- レスポンシブ対応 --- */
+        @media (max-width: 600px) {
+            .profile-container {
+                flex-direction: column; /* 縦並びにする */
+                gap: 20px;
+                align-items: center; /* 中央揃えに */
+            }
+            .left-column {
+                flex: 1;
+                width: 100%;
+            }
+            .profile-img {
+                width: 180px;
+                height: 180px;
+            }
+            body {
+                padding: 20px 10px;
+                font-size: 14px;
+                align-items: flex-start; /* 上揃えに戻す */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ウェルカム画面 -->
+    <div id="welcome-screen">
+        <h1>ようこそ</h1>
+        <p>よろしければ、あなたのお名前を教えてください。</p>
+        <input type="text" id="welcome-name-input" placeholder="お名前" autocomplete="off">
+        <button id="enter-button">サイトを見る</button>
+    </div>
+
+    <!-- メインコンテンツ -->
+    <div id="main-content">
+        <div class="profile-container">
+            <div class="left-column">
+                <img src="https://placehold.co/220x220/cccccc/ffffff?text=YOU" 
+                     alt="プロフィール写真" 
+                     class="profile-img"
+                     onerror="this.onerror=null;this.src='https://placehold.co/220x220/cccccc/ffffff?text=Error';">
+                <h1>あなたの名前</h1>
+                <p>あなたの肩書や<br>キャッチコピー</p>
+            </div>
+            <div class="right-column">
+                <main>
+                    <section id="affiliation">
+                        <h2>所属</h2>
+                        <p>〇〇大学 〇〇学部 / 株式会社〇〇</p>
+                    </section>
+        
+                    <section id="history">
+                        <h2>経歴</h2>
+                        <ul>
+                            <li>2020年: 〇〇大学 入学</li>
+                            <li>2022年: 〇〇プロジェクトに参加</li>
+                            <li>2024年: 株式会社〇〇にてインターンシップ</li>
+                        </ul>
+                    </section>
+
+                    <section id="awards">
+                        <h2>受賞歴</h2>
+                        <ul>
+                            <li>2023年: 〇〇デザイン賞 受賞</li>
+                            <li>2024年: 〇〇コンペティション 入選</li>
+                        </ul>
+                    </section>
+        
+                    <section id="contact">
+                        <h2>連絡先</h2>
+                        <p>ご連絡は <a href="mailto:your.email@example.com">こちら</a> までお願いいたします。</p>
+                    </section>
+                </main>
+            </div>
+        </div>
+        
+        <footer>
+            <div id="guestbook-section">
+                <h2>来訪記録</h2>
+                <div id="guestbook-list">
+                    <!-- ここに芳名が動的に追加されます -->
+                </div>
+            </div>
+            <p>&copy; 2025 あなたの名前</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- 要素の取得 ---
+            const welcomeScreen = document.getElementById('welcome-screen');
+            const mainContent = document.getElementById('main-content');
+            const enterButton = document.getElementById('enter-button');
+            const welcomeNameInput = document.getElementById('welcome-name-input');
+            const guestbookList = document.getElementById('guestbook-list');
+            
+            const GUESTBOOK_KEY = 'portfolio_guestbook_names_v5'; // キーを更新
+
+            // --- 関数定義 ---
+
+            /**
+             * 芳名を画面に表示する関数
+             */
+            const displayNames = () => {
+                const names = JSON.parse(localStorage.getItem(GUESTBOOK_KEY)) || [];
+                guestbookList.innerHTML = ''; // 表示をクリア
+
+                if (names.length > 0) {
+                    names.forEach(name => {
+                        const nameSpan = document.createElement('span');
+                        nameSpan.className = 'guest-name';
+                        // サニタイズ
+                        nameSpan.textContent = name.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                        guestbookList.appendChild(nameSpan);
+                    });
+                } else {
+                    const noNameMessage = document.createElement('p');
+                    noNameMessage.textContent = 'まだ記帳はありません。';
+                    noNameMessage.style.color = 'var(--secondary-color)';
+                    guestbookList.appendChild(noNameMessage);
+                }
+            };
+
+            /**
+             * メインコンテンツを表示し、名前を記帳する関数
+             */
+            const showMainContentAndSign = () => {
+                const visitorName = welcomeNameInput.value.trim();
+                if (visitorName === "") {
+                    alert('お名前を入力してください。');
+                    return;
+                }
+
+                // --- 記帳処理 ---
+                const names = JSON.parse(localStorage.getItem(GUESTBOOK_KEY)) || [];
+                // 同じ名前がなければ追加
+                if (!names.includes(visitorName)) {
+                    names.push(visitorName);
+                    localStorage.setItem(GUESTBOOK_KEY, JSON.stringify(names));
+                }
+
+                // --- 画面切り替え処理 ---
+                welcomeScreen.style.opacity = '0';
+                setTimeout(() => {
+                    welcomeScreen.style.display = 'none';
+                }, 500);
+
+                mainContent.style.display = 'block';
+                displayNames(); // 記帳リストを表示
+            };
+
+
+            // --- イベントリスナー ---
+            enterButton.addEventListener('click', showMainContentAndSign);
+            
+            welcomeNameInput.addEventListener('keypress', (event) => {
+                if (event.key === 'Enter') {
+                    showMainContentAndSign();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
 
