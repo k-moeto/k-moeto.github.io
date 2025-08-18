@@ -127,6 +127,22 @@
             margin-bottom: 15px;
         }
 
+        /* --- 画像保存防止用のスタイル --- */
+        .profile-img-container {
+            position: relative;
+            display: inline-block; /* 画像のサイズにコンテナを合わせる */
+        }
+
+        .profile-img-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent; /* 透明なレイヤー */
+        }
+
         .left-column h1 {
             margin: 0;
             font-size: 1.5em;
@@ -246,7 +262,7 @@
 
     <!-- メインコンテンツ -->
     <div id="main-content">
-        <div class="profile-container">
+        <div class="profile-img-container">
             <div class="left-column">
                 <img src="IMG_1392.JPG" 
                      alt="プロフィール写真" 
