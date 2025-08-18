@@ -319,6 +319,24 @@
         const enterButton = document.getElementById('enter-button');
         const welcomeNameInput = document.getElementById('welcome-name-input');
         const guestbookList = document.getElementById('guestbook-list');
+
+        const profileImage = document.getElementById('profile-image');
+
+        if (profileImage) {
+            // 右クリックメニューを無効化
+            profileImage.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            });
+
+            // ドラッグを無効化
+            profileImage.addEventListener('dragstart', (e) => {
+            e.preventDefault();
+        });
+    }
+    // --- ▲ここまで追加▲ ---
+
+    // このURLは、次のステップで新しく取得したものに書き換えます
+    const GAS_WEB_APP_URL = '...';
         
         // このURLは、次のステップで新しく取得したものに書き換えます
         const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyXIqavtdOKKMfHaFyWi0Ziblf94TqjK0M0KOoXFcV3g4Ka_6GJwrrQpZTecD12FIAzsA/exec';
