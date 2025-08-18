@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
     
     <title>川西萌登のポートフォリオ</title>
@@ -319,12 +319,14 @@
         const enterButton = document.getElementById('enter-button');
         const welcomeNameInput = document.getElementById('welcome-name-input');
         const guestbookList = document.getElementById('guestbook-list');
+        const profileImgContainer = document.querySelector('.profile-img-container');
 
-        // --- ▼不要なコードを削除しました▼ ---
-        // const profileImage = document.getElementById('profile-image'); ...
-        // --- ▲ここまで▲ ---
+        // --- ▼[ここから追加] 画像の右クリックメニューを無効化 ---
+        profileImgContainer.addEventListener('contextmenu', (event) => {
+            event.preventDefault();
+        });
+        // --- ▲[ここまで追加] ---
 
-        // --- ▼重複していた宣言を削除し、一つにしました▼ ---
         const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyXIqavtdOKKMfHaFyWi0Ziblf94TqjK0M0KOoXFcV3g4Ka_6GJwrrQpZTecD12FIAzsA/exec';
 
         const displayNames = async () => {
