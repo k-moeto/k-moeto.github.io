@@ -1,402 +1,252 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
-    
-    <title>川西萌登のポートフォリオ</title>
-    
-    <style>
-        /* --- 基本スタイルと変数定義 --- */
-        :root {
-            --primary-color: #2c2c2c; /* メインの文字色 */
-            --secondary-color: #7f7f7f; /* サブの文字色 */
-            --accent-color: #c1292e; /* アクセントカラー: 郵便局の赤 */
-            --background-color: #fdfdfd;
-            --border-color: #eaeaea;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet"/>
+  <title>川西萌登のポートフォリオ</title>
 
-        body {
-            font-family: 'Noto Serif JP', serif;
-            font-size: 14px; /* 全体の文字サイズを少し小さく */
-            line-height: 1.9;
-            color: var(--primary-color);
-            background-color: var(--background-color);
-            margin: 0;
-            padding: 40px 20px; /* 上下の余白を追加 */
-            display: flex;
-            justify-content: center;
-            align-items: center; /* 垂直方向も中央揃えに */
-            min-height: 100vh;
-            box-sizing: border-box;
-        }
+  <style>
+    :root{
+      --primary-color:#2c2c2c;
+      --secondary-color:#7f7f7f;
+      --accent-color:#c1292e;
+      --background-color:#fdfdfd;
+      --border-color:#eaeaea;
+    }
+    *{box-sizing:border-box}
+    body{
+      font-family:'Noto Serif JP',serif;
+      font-size:14px; line-height:1.9;
+      color:var(--primary-color);
+      background:var(--background-color);
+      margin:0; padding:40px 20px;
+      display:flex; justify-content:center; align-items:center; min-height:100vh;
+    }
 
-        /* --- ウェルカム画面 --- */
-        #welcome-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--background-color);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            z-index: 100;
-            transition: opacity 0.5s ease-out;
-            padding: 20px;
-            box-sizing: border-box;
-        }
+    /* --- ウェルカム画面 --- */
+    #welcome-screen{
+      position:fixed; inset:0; width:100%; height:100%;
+      background:var(--background-color);
+      display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center;
+      z-index:100; transition:opacity .5s ease-out; padding:20px;
+    }
+    #welcome-name-input{
+      font-family:'Noto Serif JP',serif;
+      border:none; border-bottom:1px solid var(--border-color); background:transparent;
+      font-size:1.1em; padding:8px; width:100%; max-width:280px; text-align:center; transition:border-color .3s;
+    }
+    #welcome-name-input:focus{outline:none; border-bottom-color:var(--accent-color)}
+    #enter-button{
+      font-family:'Noto Serif JP',serif;
+      margin-top:30px; padding:8px 28px; font-size:.9em; color:var(--primary-color);
+      background:transparent; border:1px solid var(--primary-color); border-radius:50px; cursor:pointer;
+      transition:background-color .3s,color .3s;
+    }
+    #enter-button:hover{background:var(--primary-color); color:#fff}
+    #enter-button[disabled]{opacity:.5; cursor:not-allowed}
 
-        #welcome-name-input {
-            font-family: 'Noto Serif JP', serif;
-            border: none;
-            border-bottom: 1px solid var(--border-color);
-            background: transparent;
-            font-size: 1.1em;
-            padding: 8px;
-            width: 100%;
-            max-width: 280px;
-            text-align: center;
-            transition: border-color 0.3s;
-        }
+    /* --- メイン --- */
+    #main-content{display:none; width:100%; max-width:860px; margin:auto; animation:fadeIn 1s ease-out}
+    @keyframes fadeIn{from{opacity:0; transform:translateY(15px)} to{opacity:1; transform:translateY(0)}}
 
-        #welcome-name-input:focus {
-            outline: none;
-            border-bottom-color: var(--accent-color);
-        }
+    .profile-container{display:flex; gap:60px; align-items:flex-start}
+    .left-column{flex:0 0 220px; text-align:center}
+    .right-column{flex:1}
 
-        #enter-button {
-            font-family: 'Noto Serif JP', serif;
-            margin-top: 30px;
-            padding: 8px 28px;
-            font-size: 0.9em;
-            color: var(--primary-color);
-            background-color: transparent;
-            border: 1px solid var(--primary-color);
-            border-radius: 50px;
-            cursor: pointer;
-            transition: background-color 0.3s, color 0.3s;
-        }
+    .profile-img{width:220px; height:220px; object-fit:cover; margin-bottom:15px}
+    .profile-img-container{position:relative; display:inline-block}
+    .profile-img-container::after{content:''; position:absolute; inset:0; background:transparent}
 
-        #enter-button:hover {
-            background-color: var(--primary-color);
-            color: #fff;
-        }
+    .left-column h1{margin:0; font-size:1.5em; font-weight:700}
+    .left-column p{color:var(--secondary-color); font-size:.9em; margin-top:5px; line-height:1.5}
 
-        /* --- メインコンテンツ --- */
-        #main-content {
-            display: none; /* 初期状態では非表示 */
-            width: 100%;
-            max-width: 860px; /* 全体の幅を少し広げる */
-            margin: auto; /* 中央揃えを確実にする */
-            animation: fadeIn 1s ease-out;
-        }
+    main{padding:0}
+    section{padding:4px 0}
+    p,ul{font-weight:400; font-size:.9em; line-height:1.8}
+    h2{font-size:.95em; font-weight:700; margin:0 0 8px; letter-spacing:.05em}
+    ul{list-style:none; padding-left:0; margin:0}
+    li{margin-bottom:4px}
+    a{color:var(--primary-color); text-decoration:none; border-bottom:1px solid var(--accent-color); transition:background-color .3s; padding-bottom:1px}
+    a:hover{background:var(--accent-color)}
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    /* --- フッター/芳名帳 --- */
+    footer{text-align:center; padding:30px 0; font-size:.8em; color:var(--secondary-color)}
+    #guestbook-section{padding:30px 0; border-top:1px solid var(--border-color); margin-top:30px}
+    #guestbook-list{
+      display:flex; flex-wrap:wrap; justify-content:center; gap:10px 20px; padding:10px 0;
+    }
+    .guest-name{font-size:.95em; color:var(--primary-color)}
+    .muted{color:var(--secondary-color)}
 
-        /* --- 2カラムレイアウト --- */
-        .profile-container {
-            display: flex;
-            gap: 60px; /* カラム間の余白を広げる */
-            align-items: flex-start; /* 上端を揃える */
-        }
-
-        .left-column {
-            flex: 0 0 220px; /* 左カラムの幅を固定 */
-            text-align: center;
-        }
-
-        .right-column {
-            flex: 1;
-        }
-
-        .profile-img {
-            width: 220px; /* 写真を大きく */
-            height: 220px; /* 写真を大きく */
-            object-fit: cover;
-            margin-bottom: 15px;
-        }
-
-        /* --- 画像保存防止用のスタイル --- */
-        .profile-img-container {
-            position: relative;
-            display: inline-block; /* 画像のサイズにコンテナを合わせる */
-        }
-
-        .profile-img-container::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: transparent; /* 透明なレイヤー */
-        }
-
-        .left-column h1 {
-            margin: 0;
-            font-size: 1.5em;
-            font-weight: 700;
-        }
-
-        .left-column p {
-            color: var(--secondary-color);
-            font-size: 0.9em;
-            margin-top: 5px;
-            line-height: 1.5;
-        }
-
-        /* --- セクション共通 --- */
-        main {
-            padding: 0;
-        }
-
-        section {
-            padding: 4px 0; /* ブロック間の余白を詰める */
-        }
-        
-        p, ul {
-            font-weight: 400; /* 細文字 */
-            font-size: 0.9em; /* 文字を小さく */
-            line-height: 1.8; /* 行間を詰める */
-        }
-
-        h2 {
-            font-size: 0.95em; /* 文字を小さく */
-            font-weight: 700; /* 太文字 */
-            margin-top: 0;
-            margin-bottom: 8px; /* 余白を詰める */
-            letter-spacing: 0.05em;
-        }
-
-        ul {
-            list-style: none;
-            padding-left: 0;
-            margin: 0;
-        }
-
-        li {
-            margin-bottom: 4px; /* 余白を詰める */
-        }
-
-        a {
-            color: var(--primary-color);
-            text-decoration: none;
-            border-bottom: 1px solid var(--accent-color);
-            transition: background-color 0.3s;
-            padding-bottom: 1px;
-        }
-
-        a:hover {
-            background-color: var(--accent-color);
-        }
-
-        /* --- フッターと芳名帳リスト --- */
-        footer {
-            text-align: center;
-            padding: 30px 0;
-            font-size: 0.8em;
-            color: var(--secondary-color);
-        }
-        
-        #guestbook-section {
-            padding: 30px 0;
-            border-top: 1px solid var(--border-color);
-            margin-top: 30px;
-        }
-
-        #guestbook-list {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px 20px;
-            padding: 10px 0;
-        }
-
-        .guest-name {
-            font-size: 0.95em;
-            color: var(--primary-color);
-        }
-        
-        /* --- レスポンシブ対応 --- */
-        @media (max-width: 600px) {
-            .profile-container {
-                flex-direction: column; /* 縦並びにする */
-                gap: 20px;
-                align-items: center; /* 中央揃えに */
-            }
-            .left-column {
-                flex: 1;
-                width: 100%;
-            }
-            .profile-img {
-                width: 180px;
-                height: 180px;
-            }
-            body {
-                padding: 20px 10px;
-                font-size: 14px;
-                align-items: flex-start; /* 上揃えに戻す */
-            }
-        }
-    </style>
+    /* --- レスポンシブ --- */
+    @media (max-width:600px){
+      .profile-container{flex-direction:column; gap:20px; align-items:center}
+      .left-column{flex:1; width:100%}
+      .profile-img{width:180px; height:180px}
+      body{padding:20px 10px; font-size:14px; align-items:flex-start}
+    }
+  </style>
 </head>
 <body>
 
-    <div id="welcome-screen">
-        <h2>ようこそ</h2>
-        <input type="text" id="welcome-name-input" placeholder="お名前を入力してください。" autocomplete="off">
-        <button id="enter-button">サイトを見る</button>
-    </div>
+  <!-- ウェルカム -->
+  <div id="welcome-screen" aria-modal="true" role="dialog">
+    <h2>ようこそ</h2>
+    <input type="text" id="welcome-name-input" placeholder="お名前を入力してください。" autocomplete="off" aria-label="お名前"/>
+    <button id="enter-button">サイトを見る</button>
+    <p id="welcome-error" class="muted" style="height:1.4em; margin-top:10px;"></p>
+  </div>
 
-    <div id="main-content">
-        <div class="profile-container">
-            <div class="left-column">
-                <div class="profile-img-container">
-                    <img src="IMG_1392.JPG" 
-                         alt="プロフィール写真" 
-                         class="profile-img"
-                         onerror="this.onerror=null;this.src='https://placehold.co/220x220/cccccc/ffffff?text=Error';">
-                </div>
-                <h1>川西 萌登</h1>
-                <p>2000年、愛知県生まれ<br>クリエイティブ・プランナー</p>
-            </div>
-            <div class="right-column">
-                <main>
-                    <section id="affiliation">
-                        <h2>所属</h2>
-                        <ul>
-                            <li>ADKマーケティング・ソリューションズ</li>
-                        </ul>
-                    </section>
-                    
-                    <section id="history">
-                        <h2>経歴/受賞歴</h2>
-                        <ul>
-                            <li>2019年〜2023年: 早稲田大学 政治経済学部</li>
-                            <li>2019年〜2022年: 角川ドワンゴ学園インターン</li>
-                            <li>2023年〜現在: ADKマーケティング・ソリューションズ</li>
-                            <li>2023年: ヤングライオンズ/スパイクス2024 デジタル部門シルバー</li>
-                            <li>2024年: Young Spikes Digital Competition 2024 Shortlisted</li>
-                        </ul>
-                    </section>
-                
-                    <section id="contact">
-                        <h2>連絡先</h2>
-                        <ul>
-                            <li>mail: motto.kwn@gmail.com</li>
-                            <li>tel: 080-2644-0894</li>
-                            <li>instagram: k.moeto</li>
-                        </ul>
-                    </section>
-                </main>
-            </div>
+  <!-- メイン -->
+  <div id="main-content">
+    <div class="profile-container">
+      <div class="left-column">
+        <div class="profile-img-container">
+          <img
+            src="IMG_1392.JPG"
+            alt="プロフィール写真"
+            class="profile-img"
+            onerror="this.onerror=null;this.src='https://placehold.co/220x220/cccccc/ffffff?text=Error';"
+          />
         </div>
-        
-        <footer>
-            <div id="guestbook-section">
-                <h2>来訪記録</h2>
-                <div id="guestbook-list">
-                    </div>
-            </div>
-            <p>&copy; 2025 moetokawanishi</p>
-        </footer>
+        <h1>川西 萌登</h1>
+        <p>2000年、愛知県生まれ<br/>クリエイティブ・プランナー</p>
+      </div>
+
+      <div class="right-column">
+        <main>
+          <section id="affiliation">
+            <h2>所属</h2>
+            <ul><li>ADKマーケティング・ソリューションズ</li></ul>
+          </section>
+
+          <section id="history">
+            <h2>経歴/受賞歴</h2>
+            <ul>
+              <li>2019年〜2023年: 早稲田大学 政治経済学部</li>
+              <li>2019年〜2022年: 角川ドワンゴ学園インターン</li>
+              <li>2023年〜現在: ADKマーケティング・ソリューションズ</li>
+              <li>2023年: ヤングライオンズ/スパイクス2024 デジタル部門シルバー</li>
+              <li>2024年: Young Spikes Digital Competition 2024 Shortlisted</li>
+            </ul>
+          </section>
+
+          <section id="contact">
+            <h2>連絡先</h2>
+            <ul>
+              <li>mail: motto.kwn@gmail.com</li>
+              <li>tel: 080-2644-0894</li>
+              <li>instagram: k.moeto</li>
+            </ul>
+          </section>
+        </main>
+      </div>
     </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const welcomeScreen = document.getElementById('welcome-screen');
-    const mainContent = document.getElementById('main-content');
-    const enterButton = document.getElementById('enter-button');
-    const welcomeNameInput = document.getElementById('welcome-name-input');
-    const guestbookList = document.getElementById('guestbook-list');
-    const profileImgContainer = document.querySelector('.profile-img-container');
+    <footer>
+      <div id="guestbook-section">
+        <h2>来訪記録</h2>
+        <div id="guestbook-list"></div>
+      </div>
+      <p>&copy; 2025 moetokawanishi</p>
+    </footer>
+  </div>
 
-    // --- 画像の右クリックメニューを無効化 ---
-    profileImgContainer.addEventListener('contextmenu', (event) => {
-        event.preventDefault();
-    });
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const welcomeScreen = document.getElementById('welcome-screen');
+      const mainContent    = document.getElementById('main-content');
+      const enterButton    = document.getElementById('enter-button');
+      const welcomeInput   = document.getElementById('welcome-name-input');
+      const welcomeError   = document.getElementById('welcome-error');
+      const guestbookList  = document.getElementById('guestbook-list');
+      const profileImgContainer = document.querySelector('.profile-img-container');
 
-    const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbx09c6xNetErUVfAvVdBckCk5ONhdnKfQ1t0HvnxedeluBIoe3L9-EY5lOfei6VZ0A7/exec';
+      // 画像の右クリック禁止
+      profileImgContainer.addEventListener('contextmenu', (e) => e.preventDefault());
 
-    const displayNames = async () => {
+      // ★ あなたのGAS WebアプリURL（/exec）
+      const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyg6Y-D2Hh2mebaPggB5aXjo-dvGdwhha1qHhGB1HsSwN2-makeUloUGzgjkmEoz8U/exec';
+
+      // 来訪記録を表示
+      const displayNames = async () => {
         guestbookList.innerHTML = '';
         try {
-            const response = await fetch(GAS_WEB_APP_URL);
-            const names = await response.json();
-
-            if (names && names.length > 0) {
-                names.forEach(name => {
-                    const nameSpan = document.createElement('span');
-                    nameSpan.className = 'guest-name';
-                    nameSpan.textContent = name;
-                    guestbookList.appendChild(nameSpan);
-                });
-            } else {
-                const noNameMessage = document.createElement('p');
-                noNameMessage.textContent = 'まだ記帳はありません。';
-                noNameMessage.style.color = 'var(--secondary-color)';
-                guestbookList.appendChild(noNameMessage);
-            }
-        } catch (error) {
-            console.error('名前の読み込みに失敗しました:', error);
-            guestbookList.textContent = '記録の読み込みに失敗しました。';
+          // no-store でキャッシュを避ける（特にSafari対策）
+          const response = await fetch(GAS_WEB_APP_URL, { cache: 'no-store' });
+          // CORSでブロックされた場合はここに来ないため、まずは /exec を直接開いてJSONが出るか確認してください
+          const data = await response.json();
+          const names = Array.isArray(data) ? data : [];
+          if (names.length) {
+            names.forEach((name) => {
+              const span = document.createElement('span');
+              span.className = 'guest-name';
+              span.textContent = name;
+              guestbookList.appendChild(span);
+            });
+          } else {
+            const p = document.createElement('p');
+            p.textContent = 'まだ記帳はありません。';
+            p.className = 'muted';
+            guestbookList.appendChild(p);
+          }
+        } catch (err) {
+          console.error('名前の読み込みに失敗しました:', err);
+          guestbookList.textContent = '記録の読み込みに失敗しました。';
         }
-    };
+      };
 
-    const showMainContentAndSign = async () => {
-        const visitorName = welcomeNameInput.value.trim();
-        if (visitorName === "") {
-            alert('お名前を入力してください。');
-            return;
-        }
-
-        // 1. まずUIの更新（画面遷移アニメーション）を即座に開始する
+      // 画面表示切り替え
+      const showMain = () => {
         welcomeScreen.style.opacity = '0';
         setTimeout(() => {
-            welcomeScreen.style.display = 'none';
-            mainContent.style.display = 'block';
+          welcomeScreen.style.display = 'none';
+          mainContent.style.display = 'block';
         }, 500);
+      };
 
-        // 2. データ処理はUI更新と並行して「裏側」で行う
+      // 記帳処理
+      const signAndShow = async () => {
+        const raw = welcomeInput.value;
+        const visitorName = (raw || '').trim();
+        if (!visitorName) {
+          welcomeError.textContent = 'お名前を入力してください。';
+          welcomeInput.focus();
+          return;
+        }
+        welcomeError.textContent = '';
+        enterButton.disabled = true;
+
+        // UIは先に表示
+        showMain();
+
+        // サーバーへPOST（text/plain のシンプルリクエスト）
         try {
-            // 2-1. 名前の書き込みリクエストを送信（完了を待たない）
-            // ▼▼▼ headers部分を削除して「単純なリクエスト」に修正 ▼▼▼
-            fetch(GAS_WEB_APP_URL, {
-                method: 'POST',
-                mode: 'cors',
-                body: visitorName
-            }).catch(error => {
-                // 書き込み失敗はコンソールに出力するのみで、ユーザー体験には影響させない
-                console.error('記帳に失敗しました:', error);
-            });
-            // ▲▲▲ ここまで ▲▲▲
-
-            // 2-2. 来訪記録の読み込みと表示
-            displayNames();
-
-        } catch (error) {
-            console.error('処理中にエラーが発生しました:', error);
+          await fetch(GAS_WEB_APP_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // ← プリフライトが発生しない「シンプルヘッダー」
+            body: visitorName
+          });
+        } catch (err) {
+          console.error('記帳に失敗しました:', err);
+        } finally {
+          // 最新リストを反映
+          await displayNames();
+          enterButton.disabled = false;
         }
-    };
+      };
 
-    enterButton.addEventListener('click', showMainContentAndSign);
-    
-    welcomeNameInput.addEventListener('keypress', (event) => {
-        if (event.key === 'Enter') {
-            showMainContentAndSign();
-        }
+      enterButton.addEventListener('click', signAndShow);
+      welcomeInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') signAndShow();
+      });
+
+      // （任意）最初に既存の来訪者を読み込んでおくなら、以下を有効化
+      // displayNames();
     });
-});
-</script>
+  </script>
 </body>
 </html>
