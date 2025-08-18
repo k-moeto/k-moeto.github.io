@@ -326,7 +326,7 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
     });
 
-    const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbw3mS6yZ28VlXfkfpNiTIIH4MFsM_rg1iP2Kns-X6U_1wR51xhqyXhN9Q3tpvfUJgXr/exec';
+    const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyXIqavtdOKKMfHaFyWi0Ziblf94TqjK0M0KOoXFcV3g4Ka_6GJwrrQpZTecD12FIAzsA/exec';
 
     const displayNames = async () => {
         guestbookList.innerHTML = '';
@@ -353,7 +353,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // ▼▼▼ 表示速度改善のため修正した関数 ▼▼▼
     const showMainContentAndSign = async () => {
         const visitorName = welcomeNameInput.value.trim();
         if (visitorName === "") {
@@ -371,13 +370,16 @@ document.addEventListener('DOMContentLoaded', () => {
         // 2. データ処理はUI更新と並行して「裏側」で行う
         try {
             // 2-1. 名前の書き込みリクエストを送信（完了を待たない）
+            // ▼▼▼ headers部分を削除して「単純なリクエスト」に修正 ▼▼▼
             fetch(GAS_WEB_APP_URL, {
                 method: 'POST',
                 mode: 'cors',
+                body: visitorName
             }).catch(error => {
                 // 書き込み失敗はコンソールに出力するのみで、ユーザー体験には影響させない
                 console.error('記帳に失敗しました:', error);
             });
+            // ▲▲▲ ここまで ▲▲▲
 
             // 2-2. 来訪記録の読み込みと表示
             displayNames();
@@ -386,7 +388,6 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('処理中にエラーが発生しました:', error);
         }
     };
-    // ▲▲▲ ここまで ▲▲▲
 
     enterButton.addEventListener('click', showMainContentAndSign);
     
