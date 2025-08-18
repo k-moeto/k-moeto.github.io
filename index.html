@@ -374,12 +374,6 @@ document.addEventListener('DOMContentLoaded', () => {
             fetch(GAS_WEB_APP_URL, {
                 method: 'POST',
                 mode: 'cors',
-                // GAS側で正しく受け取るためにContent-Typeを指定
-                // ただしGASのdoPostの実装によっては不要な場合もあります
-                headers: {
-                    'Content-Type': 'text/plain;charset=utf-8',
-                },
-                body: visitorName
             }).catch(error => {
                 // 書き込み失敗はコンソールに出力するのみで、ユーザー体験には影響させない
                 console.error('記帳に失敗しました:', error);
