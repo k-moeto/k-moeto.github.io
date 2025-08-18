@@ -320,25 +320,11 @@
         const welcomeNameInput = document.getElementById('welcome-name-input');
         const guestbookList = document.getElementById('guestbook-list');
 
-        const profileImage = document.getElementById('profile-image');
+        // --- ▼不要なコードを削除しました▼ ---
+        // const profileImage = document.getElementById('profile-image'); ...
+        // --- ▲ここまで▲ ---
 
-        if (profileImage) {
-            // 右クリックメニューを無効化
-            profileImage.addEventListener('contextmenu', (e) => {
-            e.preventDefault();
-            });
-
-            // ドラッグを無効化
-            profileImage.addEventListener('dragstart', (e) => {
-            e.preventDefault();
-        });
-    }
-    // --- ▲ここまで追加▲ ---
-
-    // このURLは、次のステップで新しく取得したものに書き換えます
-    const GAS_WEB_APP_URL = '...';
-        
-        // このURLは、次のステップで新しく取得したものに書き換えます
+        // --- ▼重複していた宣言を削除し、一つにしました▼ ---
         const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyXIqavtdOKKMfHaFyWi0Ziblf94TqjK0M0KOoXFcV3g4Ka_6GJwrrQpZTecD12FIAzsA/exec';
 
         const displayNames = async () => {
@@ -374,15 +360,11 @@
             }
 
             try {
-                // --- ▼ここから変更▼ ---
-                // ヘッダーを指定せず、名前をテキストとしてそのまま送信する
                 await fetch(GAS_WEB_APP_URL, {
                     method: 'POST',
-                    mode: 'cors', // modeはcorsのまま
-                    body: visitorName // JSON.stringifyをやめ、文字列を直接送る
+                    mode: 'cors',
+                    body: visitorName
                 });
-                // --- ▲ここまで変更▲ ---
-
             } catch (error) {
                 console.error('記帳に失敗しました:', error);
             }
