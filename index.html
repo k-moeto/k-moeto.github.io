@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Google Fontsからフォントを読み込み -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
@@ -253,21 +252,21 @@
 </head>
 <body>
 
-    <!-- ウェルカム画面 -->
     <div id="welcome-screen">
         <h2>ようこそ</h2>
         <input type="text" id="welcome-name-input" placeholder="お名前を入力してください。" autocomplete="off">
         <button id="enter-button">サイトを見る</button>
     </div>
 
-    <!-- メインコンテンツ -->
     <div id="main-content">
-        <div class="profile-img-container">
+        <div class="profile-container">
             <div class="left-column">
-                <img src="IMG_1392.JPG" 
-                     alt="プロフィール写真" 
-                     class="profile-img"
-                     onerror="this.onerror=null;this.src='https://placehold.co/220x220/cccccc/ffffff?text=Error';">
+                <div class="profile-img-container">
+                    <img src="IMG_1392.JPG" 
+                         alt="プロフィール写真" 
+                         class="profile-img"
+                         onerror="this.onerror=null;this.src='https://placehold.co/220x220/cccccc/ffffff?text=Error';">
+                </div>
                 <h1>川西 萌登</h1>
                 <p>2000年、愛知県生まれ<br>クリエイティブ・プランナー</p>
             </div>
@@ -276,7 +275,7 @@
                     <section id="affiliation">
                         <h2>所属</h2>
                         <ul>
-                            <li>ADKマーケティング・ソリューションズ<li>
+                            <li>ADKマーケティング・ソリューションズ</li>
                         </ul>
                     </section>
                     
@@ -288,7 +287,9 @@
                             <li>2023年〜現在: ADKマーケティング・ソリューションズ</li>
                             <li>2023年: ヤングライオンズ/スパイクス2024　デジタル部門シルバー</li>
                             <li>2024年: Young Spikes Digital Competition 2024 Shortlisted</li>
-        
+                        </ul>
+                    </section>
+            
                     <section id="contact">
                         <h2>連絡先</h2>
                         <ul>
@@ -305,8 +306,7 @@
             <div id="guestbook-section">
                 <h2>来訪記録</h2>
                 <div id="guestbook-list">
-                    <!-- ここに芳名が動的に追加されます -->
-                </div>
+                    </div>
             </div>
             <p>&copy; 2025 moetokawanishi</p>
         </footer>
