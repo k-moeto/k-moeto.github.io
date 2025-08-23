@@ -209,7 +209,7 @@
       };
 
       // 記帳処理
-      const signAndShow = async () => {
+      const signAndShow = () => {
         const raw = welcomeInput.value;
         const visitorName = (raw || '').trim();
         if (!visitorName) {
@@ -218,25 +218,36 @@
           return;
         }
         welcomeError.textContent = '';
-        enterButton.disabled = true;
+        enterButton.disabled = true; // ボタンを無効化
 
         // UIは先に表示
         showMain();
 
-        // サーバーへPOST（text/plain のシンプルリクエスト）
-        try {
-          await fetch(GAS_WEB_APP_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // ← プリフライトが発生しない「シンプルヘッダー」
-            body: visitorName
-          });
-        } catch (err) {
-          console.error('記帳に失敗しました:', err);
-        } finally {
-          // 最新リストを反映
-          await displayNames();
-          enterButton.disabled = false;
+        // ★ 楽観的UI更新：即座にDOMに名前を追加
+        const span = document.createElement('span');
+        span.className = 'guest-name';
+        span.textContent = visitorName;
+
+        // 「まだ記帳はありません。」のメッセージがあれば消す
+        const existingP = guestbookList.querySelector('p.muted');
+        if (existingP) {
+          guestbookList.innerHTML = ''; // メッセージをクリア
         }
+        guestbookList.appendChild(span);
+
+        // サーバーへPOST（バックグラウンドで実行され、完了を待たない）
+        fetch(GAS_WEB_APP_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: visitorName
+        }).catch(err => {
+          console.error('記帳に失敗しました:', err);
+          // エラー時にはUIから名前を削除するなどのエラー処理も可能
+          span.remove();
+        }).finally(() => {
+            // 成功・失敗に関わらずボタンを再度有効化（もし必要なら）
+            // このアプリでは画面遷移するので不要
+        });
       };
 
       enterButton.addEventListener('click', signAndShow);
@@ -245,7 +256,7 @@
       });
 
       // （任意）最初に既存の来訪者を読み込んでおくなら、以下を有効化
-      // displayNames();
+      displayNames();
     });
   </script>
 </body>
