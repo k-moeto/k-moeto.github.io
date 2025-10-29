@@ -5,21 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet"/>
   <title>川西萌登のポートフォリオ</title>
 
   <style>
     @import url('http://mcansh.github.io/yeezy-logo-font/assets/css/font.css');
     :root{
-      --primary-color:#20201E;
-      --secondary-color:#979691;
+      --background-color:#fdfdfd;
+      --primary-color:#2c2c2c;
+      --secondary-color:#7f7f7f;
       --accent-color:#c1292e;
-      --background-color:#EDEDE3;
       --border-color:#eaeaea;
     }
     *{box-sizing:border-box}
     body{
-      font-family:'Yeezy', 'Noto Sans JP', sans-serif;
+      font-family:'Noto Serif JP', serif;
       font-size:14px; line-height:1.9;
       color:var(--primary-color);
       background:var(--background-color);
@@ -35,13 +35,13 @@
       z-index:100; transition:opacity .5s ease-out; padding:20px;
     }
     #welcome-name-input{
-      font-family:'Yeezy', 'Noto Sans JP', sans-serif;
+      font-family:'Noto Serif JP', serif;
       border:none; border-bottom:1px solid var(--border-color); background:transparent;
       font-size:1.1em; padding:8px; width:100%; max-width:280px; text-align:center; transition:border-color .3s;
     }
     #welcome-name-input:focus{outline:none; border-bottom-color:var(--secondary-color)}
     #enter-button{
-      font-family:'Noto Sans JP', sans-serif;
+      font-family:'Noto Serif JP', serif;
       margin-top:30px; padding:8px 28px; font-size:.9em; color:var(--primary-color);
       background:transparent; border:1px solid var(--primary-color); border-radius:50px; cursor:pointer;
       transition:background-color .3s,color .3s;
@@ -61,13 +61,13 @@
     .profile-img-container{position:relative; display:inline-block}
     .profile-img-container::after{content:''; position:absolute; inset:0; background:transparent}
 
-    .left-column h1{font-family:'Yeezy', 'Noto Sans JP', sans-serif; margin:0; font-size:1.5em;}
+    .left-column h1{font-family:'Noto Serif JP', serif; margin:0; font-size:1.5em;}
     .left-column p{color:var(--secondary-color); font-size:.9em; margin-top:5px; line-height:1.5}
 
     main{padding:0}
     section{padding:4px 0}
     p,ul{font-weight:400; font-size:.9em; line-height:1.8}
-    h2{font-family:'Yeezy', 'Noto Sans JP', sans-serif; font-size:.95em; margin:0 0 8px; letter-spacing:.05em}
+    h2{font-family:'Noto Serif JP', serif; font-size:.95em; margin:0 0 8px; letter-spacing:.05em}
     ul{list-style:none; padding-left:0; margin:0}
     li{margin-bottom:4px}
     a{color:var(--primary-color); text-decoration:none; border-bottom:1px solid var(--secondary-color); transition:background-color .3s; padding-bottom:1px}
@@ -77,7 +77,11 @@
     footer{text-align:center; padding:30px 0; font-size:.8em; color:var(--secondary-color)}
     #guestbook-section{padding:30px 0; border-top:1px solid var(--border-color); margin-top:30px}
     #guestbook-list{
-      display:flex; flex-wrap:wrap; justify-content:center; gap:10px 20px; padding:10px 0;
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 10px 20px;
+      padding: 10px 0;
+      justify-items: center;
     }
     .guest-name{font-size:.95em; color:var(--primary-color)}
     .muted{color:var(--secondary-color)}
@@ -184,7 +188,7 @@
           const data = await response.json();
           const names = Array.isArray(data) ? data : [];
           if (names.length) {
-            names.forEach((name) => {
+            names.reverse().forEach((name) => {
               const span = document.createElement('span');
               span.className = 'guest-name';
               span.textContent = name;
