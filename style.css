@@ -44,6 +44,11 @@ body {
     align-items: center;
 }
 
+/* left-column内は中央揃え */
+.left-column .paywall-inline .paywall-overlay {
+    justify-content: center;
+}
+
 .paywall-content {
     transition: filter 0.5s ease-out;
 }
