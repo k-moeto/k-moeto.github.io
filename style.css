@@ -49,6 +49,24 @@ body {
     justify-content: center;
 }
 
+/* インラインテキスト用 */
+.paywall-inline-text {
+    position: relative;
+    display: inline;
+}
+
+.paywall-inline-text .paywall-content {
+    display: inline;
+}
+
+.paywall-inline-text .paywall-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .paywall-content {
     transition: filter 0.5s ease-out;
 }
