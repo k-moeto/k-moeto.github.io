@@ -49,22 +49,22 @@ body {
     justify-content: center;
 }
 
-/* インラインテキスト用 */
-.paywall-inline-text {
-    position: relative;
-    display: inline;
+/* 単語単位のペイウォール */
+.paywall-word {
+    cursor: pointer;
+    color: var(--secondary-color);
+    letter-spacing: 0.05em;
+    transition: all 0.3s ease;
 }
 
-.paywall-inline-text .paywall-content {
-    display: inline;
+.paywall-word.locked:hover {
+    color: var(--accent-color);
 }
 
-.paywall-inline-text .paywall-overlay {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.paywall-word.unlocked {
+    cursor: default;
+    color: var(--primary-color);
+    letter-spacing: normal;
 }
 
 .paywall-content {

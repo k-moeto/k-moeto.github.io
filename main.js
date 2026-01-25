@@ -28,78 +28,91 @@ document.addEventListener('DOMContentLoaded', () => {
   const checkPaymentSuccess = () => {
     const urlParams = new URLSearchParams(window.location.search);
 
-    // Stripeからの戻りをチェック（成功URLにパラメータを設定した場合）
     if (urlParams.has('payment_success') || document.referrer.includes('stripe.com')) {
       const pendingItem = getPendingItem();
       if (pendingItem) {
-        // 保留中のアイテムを解除
         const unlockedItems = getUnlockedItems();
         if (!unlockedItems.includes(pendingItem)) {
           unlockedItems.push(pendingItem);
           saveUnlockedItems(unlockedItems);
         }
         clearPendingItem();
-
-        // URLパラメータをクリア
         window.history.replaceState({}, document.title, window.location.pathname);
-
         console.log(`[Stripe] ${pendingItem}を解除しました`);
       }
     }
   };
 
   // --- ペイウォール解除処理 ---
-  const unlockItem = (container) => {
-    const paywallId = container.dataset.paywallId;
+  const unlockItem = (itemId) => {
     const unlockedItems = getUnlockedItems();
+    if (unlockedItems.includes(itemId)) return;
 
-    if (unlockedItems.includes(paywallId)) return;
-
-    // 保留中として保存し、Stripeにリダイレクト
-    setPendingItem(paywallId);
-
-    // Payment Linkにリダイレクト
+    setPendingItem(itemId);
     window.location.href = PAYMENT_LINK;
   };
 
-  const applyUnlockState = (container) => {
-    const content = container.querySelector('.paywall-content');
-    const overlay = container.querySelector('.paywall-overlay');
-    if (content) content.classList.remove('locked');
-    if (overlay) overlay.classList.add('hidden');
-  };
-
-  // --- 初期化：保存された状態を復元 ---
-  const restoreSavedState = () => {
+  // --- UIに解除状態を適用 ---
+  const applyUnlockState = (element, itemId) => {
     const unlockedItems = getUnlockedItems();
-    document.querySelectorAll('.paywall-container').forEach(container => {
-      if (unlockedItems.includes(container.dataset.paywallId)) {
-        applyUnlockState(container);
+    if (unlockedItems.includes(itemId)) {
+      // paywall-word の場合: 隠されたテキストを表示
+      if (element.classList.contains('paywall-word')) {
+        const hiddenText = element.dataset.hidden;
+        element.textContent = hiddenText;
+        element.classList.add('unlocked');
+        element.classList.remove('locked');
       }
-    });
+      // paywall-container の場合: ブラーを解除
+      else if (element.classList.contains('paywall-container')) {
+        const content = element.querySelector('.paywall-content');
+        const overlay = element.querySelector('.paywall-overlay');
+        if (content) content.classList.remove('locked');
+        if (overlay) overlay.classList.add('hidden');
+      }
+    }
   };
 
-  // --- リセット処理 ---
-  const resetAll = () => {
-    localStorage.removeItem(STORAGE_KEY);
-    localStorage.removeItem(PENDING_KEY);
-    location.reload();
+  // --- 初期化 ---
+  const restoreSavedState = () => {
+    // paywall-container
+    document.querySelectorAll('.paywall-container').forEach(element => {
+      const itemId = element.dataset.paywallId;
+      applyUnlockState(element, itemId);
+    });
+
+    // paywall-word
+    document.querySelectorAll('.paywall-word').forEach(element => {
+      const itemId = element.dataset.paywallId;
+      applyUnlockState(element, itemId);
+    });
   };
 
   // --- イベントリスナー ---
-  document.querySelectorAll('.unlock-button').forEach(button => {
+  // paywall-containerの解除ボタン
+  document.querySelectorAll('.paywall-container .unlock-button').forEach(button => {
     button.addEventListener('click', (e) => {
       const container = e.target.closest('.paywall-container');
-      if (container) unlockItem(container);
+      if (container) {
+        unlockItem(container.dataset.paywallId);
+      }
     });
   });
 
-  const resetButton = document.getElementById('reset-button');
-  if (resetButton) resetButton.addEventListener('click', resetAll);
+  // paywall-word（●●●）クリックで解除
+  document.querySelectorAll('.paywall-word').forEach(element => {
+    const unlockedItems = getUnlockedItems();
+    if (!unlockedItems.includes(element.dataset.paywallId)) {
+      element.classList.add('locked');
+      element.addEventListener('click', () => {
+        unlockItem(element.dataset.paywallId);
+      });
+    }
+  });
 
-  // --- 初期化 ---
+  // --- 初期化実行 ---
   checkPaymentSuccess();
   restoreSavedState();
 
-  console.log('ペイウォールシステム初期化完了（Stripe Payment Links連携）');
+  console.log('ペイウォールシステム初期化完了');
 });
