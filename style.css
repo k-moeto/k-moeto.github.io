@@ -1,0 +1,274 @@
+@import url('http://mcansh.github.io/yeezy-logo-font/assets/css/font.css');
+
+:root {
+    --background-color: #fdfdfd;
+    --primary-color: #2c2c2c;
+    --secondary-color: #7f7f7f;
+    --accent-color: #c1292e;
+    --border-color: #eaeaea;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 14px;
+    line-height: 1.9;
+    color: var(--primary-color);
+    background: var(--background-color);
+    margin: 0;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* --- ペイウォール --- */
+.paywall-container {
+    position: relative;
+}
+
+.paywall-inline {
+    position: relative;
+    display: block;
+}
+
+.paywall-inline .paywall-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.paywall-content {
+    transition: filter 0.5s ease-out;
+}
+
+.paywall-content.locked {
+    filter: blur(8px);
+    user-select: none;
+}
+
+.paywall-content.locked img {
+    filter: blur(16px);
+}
+
+.paywall-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    opacity: 1;
+    transition: opacity 0.3s ease-out;
+}
+
+.paywall-container:not(.paywall-inline) .paywall-overlay {
+    position: absolute;
+    inset: 0;
+}
+
+.paywall-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.unlock-button {
+    font-family: 'Noto Serif JP', serif;
+    background: transparent;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    padding: 4px 12px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 0.75em;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.unlock-button:hover {
+    background: var(--primary-color);
+    color: #fff;
+}
+
+.price-tag {
+    font-size: 0.9em;
+    margin-left: 4px;
+}
+
+/* --- メイン --- */
+#main-content {
+    width: 100%;
+    max-width: 860px;
+    margin: auto;
+    animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.profile-container {
+    display: flex;
+    gap: 60px;
+    align-items: flex-start;
+}
+
+.left-column {
+    flex: 0 0 220px;
+    text-align: center;
+}
+
+.right-column {
+    flex: 1;
+}
+
+.profile-img {
+    width: 220px;
+    height: 220px;
+    object-fit: cover;
+    margin-bottom: 15px;
+}
+
+.profile-img-container {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-img-container::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: transparent;
+}
+
+.left-column h1 {
+    font-family: 'Noto Serif JP', serif;
+    margin: 0;
+    font-size: 1.5em;
+}
+
+.left-column p {
+    color: var(--secondary-color);
+    font-size: 0.9em;
+    margin-top: 5px;
+    line-height: 1.5;
+}
+
+main {
+    padding: 0;
+}
+
+section {
+    padding: 4px 0;
+}
+
+p,
+ul {
+    font-weight: 400;
+    font-size: 0.9em;
+    line-height: 1.8;
+}
+
+h2 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.95em;
+    margin: 0 0 8px;
+    letter-spacing: 0.05em;
+}
+
+ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+li {
+    margin-bottom: 4px;
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    border-bottom: 1px solid var(--secondary-color);
+    transition: background-color 0.3s;
+    padding-bottom: 1px;
+}
+
+a:hover {
+    background: var(--secondary-color);
+}
+
+/* --- フッター --- */
+footer {
+    text-align: center;
+    padding: 30px 0;
+    font-size: 0.8em;
+    color: var(--secondary-color);
+}
+
+.muted {
+    color: var(--secondary-color);
+}
+
+/* リセットボタン */
+.reset-section {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.reset-button {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--secondary-color);
+    padding: 4px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.7em;
+    transition: all 0.3s;
+}
+
+.reset-button:hover {
+    background: var(--secondary-color);
+    color: #fff;
+}
+
+/* --- レスポンシブ --- */
+@media (max-width: 600px) {
+    .profile-container {
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+    }
+
+    .left-column {
+        flex: 1;
+        width: 100%;
+    }
+
+    .profile-img {
+        width: 180px;
+        height: 180px;
+    }
+
+    body {
+        padding: 20px 10px;
+        font-size: 14px;
+        align-items: flex-start;
+    }
+
+    #guestbook-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
