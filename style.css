@@ -26,100 +26,86 @@ body {
     min-height: 100vh;
 }
 
-/* --- ペイウォール --- */
-.paywall-container {
+/* --- ペイウォール（ブロック） --- */
+.paywall-block {
     position: relative;
 }
 
-.paywall-inline {
-    position: relative;
-    display: block;
-}
-
-.paywall-inline .paywall-overlay {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-}
-
-/* left-column内は中央揃え */
-.left-column .paywall-inline .paywall-overlay {
-    justify-content: center;
-}
-
-/* 単語単位のペイウォール */
-.paywall-word {
-    cursor: pointer;
-    color: var(--secondary-color);
-    letter-spacing: 0.05em;
-    transition: all 0.3s ease;
-}
-
-.paywall-word.locked:hover {
-    color: var(--accent-color);
-}
-
-.paywall-word.unlocked {
-    cursor: default;
-    color: var(--primary-color);
-    letter-spacing: normal;
-}
-
-.paywall-content {
-    transition: filter 0.5s ease-out;
-}
-
-.paywall-content.locked {
-    filter: blur(8px);
+.paywall-block .paywall-content.locked {
+    filter: blur(10px);
     user-select: none;
 }
 
-.paywall-content.locked img {
+.paywall-block .paywall-content.locked img {
     filter: blur(16px);
 }
 
-.paywall-overlay {
+.paywall-block .paywall-overlay {
+    position: absolute;
+    inset: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 10;
-    opacity: 1;
-    transition: opacity 0.3s ease-out;
 }
 
-.paywall-container:not(.paywall-inline) .paywall-overlay {
-    position: absolute;
-    inset: 0;
+.paywall-block .paywall-overlay.hidden {
+    display: none;
 }
 
-.paywall-overlay.hidden {
-    opacity: 0;
+/* --- ペイウォール（インライン） --- */
+.paywall-inline {
+    display: inline;
+    position: relative;
+}
+
+.paywall-inline .paywall-content {
+    display: inline;
+    transition: filter 0.3s ease;
+}
+
+.paywall-inline .paywall-content.locked {
+    filter: blur(6px);
+    user-select: none;
     pointer-events: none;
 }
 
-.unlock-button {
+.paywall-inline .unlock-btn {
+    display: inline;
+    margin-left: 4px;
+}
+
+.paywall-inline .unlock-btn.hidden {
+    display: none;
+}
+
+/* リンクをロック中は無効化 */
+.paywall-content.locked .paywall-link {
+    pointer-events: none;
+    color: inherit;
+    text-decoration: none;
+    border-bottom: none;
+}
+
+/* --- 解除ボタン（共通） --- */
+.unlock-button,
+.unlock-btn {
     font-family: 'Noto Serif JP', serif;
     background: transparent;
     color: var(--primary-color);
     border: 1px solid var(--primary-color);
-    padding: 4px 12px;
+    padding: 3px 10px;
     border-radius: 50px;
     cursor: pointer;
-    font-size: 0.75em;
+    font-size: 0.7em;
     transition: all 0.3s ease;
     white-space: nowrap;
 }
 
-.unlock-button:hover {
+.unlock-button:hover,
+.unlock-btn:hover {
     background: var(--primary-color);
     color: #fff;
-}
-
-.price-tag {
-    font-size: 0.9em;
-    margin-left: 4px;
 }
 
 /* --- メイン --- */
@@ -169,20 +155,14 @@ body {
     display: inline-block;
 }
 
-.profile-img-container::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: transparent;
-}
-
 .left-column h1 {
     font-family: 'Noto Serif JP', serif;
     margin: 0;
     font-size: 1.5em;
 }
 
-.left-column p {
+.left-column p,
+.left-column .bio {
     color: var(--secondary-color);
     font-size: 0.9em;
     margin-top: 5px;
@@ -218,7 +198,7 @@ ul {
 }
 
 li {
-    margin-bottom: 4px;
+    margin-bottom: 6px;
 }
 
 a {
@@ -239,32 +219,6 @@ footer {
     padding: 30px 0;
     font-size: 0.8em;
     color: var(--secondary-color);
-}
-
-.muted {
-    color: var(--secondary-color);
-}
-
-/* リセットボタン */
-.reset-section {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.reset-button {
-    background: transparent;
-    border: 1px solid var(--border-color);
-    color: var(--secondary-color);
-    padding: 4px 12px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 0.7em;
-    transition: all 0.3s;
-}
-
-.reset-button:hover {
-    background: var(--secondary-color);
-    color: #fff;
 }
 
 /* --- レスポンシブ --- */
@@ -289,9 +243,5 @@ footer {
         padding: 20px 10px;
         font-size: 14px;
         align-items: flex-start;
-    }
-
-    #guestbook-list {
-        grid-template-columns: repeat(3, 1fr);
     }
 }
