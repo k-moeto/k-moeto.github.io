@@ -23,36 +23,21 @@
 
 <body>
 
-  <!-- メイン -->
   <div id="main-content">
     <div class="profile-container">
       <div class="left-column">
 
         <!-- 写真 -->
-        <div class="paywall-block" data-paywall-id="photo">
-          <div class="paywall-content locked">
-            <div class="profile-img-container">
-              <img src="IMG_1392.JPG" alt="プロフィール写真" class="profile-img"
-                onerror="this.onerror=null;this.src='https://placehold.co/220x220/cccccc/ffffff?text=Photo';" />
-            </div>
-          </div>
-          <div class="paywall-overlay">
-            <button class="unlock-button">解除 ¥50</button>
-          </div>
+        <div class="profile-img-container" data-tag-open="<img>" data-tag-close="">
+          <img src="IMG_1392.JPG" alt="プロフィール写真" class="profile-img"
+            onerror="this.onerror=null;this.src='https://placehold.co/220x220/cccccc/ffffff?text=Photo';" />
         </div>
 
-        <!-- 名前（隠さない） -->
-        <h1>川西 萌登</h1>
+        <!-- 名前 -->
+        <h1 data-randomize>川西 萌登</h1>
 
         <!-- 出身 -->
-        <div class="paywall-block" data-paywall-id="birthplace">
-          <div class="paywall-content locked">
-            <p class="bio">2000年、愛知県生まれ</p>
-          </div>
-          <div class="paywall-overlay">
-            <button class="unlock-button">解除 ¥50</button>
-          </div>
-        </div>
+        <p class="bio" data-randomize>2000年、愛知県生まれ</p>
 
       </div>
 
@@ -61,98 +46,33 @@
 
           <!-- 所属 -->
           <section id="affiliation">
-            <h2>所属</h2>
+            <h2 data-randomize>所属</h2>
             <ul>
-              <li>
-                <span class="paywall-inline" data-paywall-id="affiliation-1">
-                  <button class="unlock-btn">解除 ¥50</button>
-                  <span class="paywall-content locked">ADKマーケティング・ソリューションズ</span>
-                </span>
-              </li>
+              <li data-randomize>ADKマーケティング・ソリューションズ</li>
             </ul>
           </section>
 
           <!-- 経歴/受賞歴 -->
           <section id="history">
-            <h2>経歴/受賞歴</h2>
+            <h2 data-randomize>経歴/受賞歴</h2>
             <ul>
-              <li>2019年〜2023年:
-                <span class="paywall-inline" data-paywall-id="history-1a">
-                  <button class="unlock-btn">解除 ¥50</button>
-                  <span class="paywall-content locked">早稲田</span>
-                </span>大学
-                <span class="paywall-inline" data-paywall-id="history-1b">
-                  <button class="unlock-btn">解除 ¥50</button>
-                  <span class="paywall-content locked">政治経済</span>
-                </span>学部
-              </li>
-
-              <li>2019年〜2022年:
-                <span class="paywall-inline" data-paywall-id="history-2">
-                  <button class="unlock-btn">解除 ¥50</button>
-                  <span class="paywall-content locked">角川ドワンゴ学園インターン</span>
-                </span>
-              </li>
-
-              <li>2023年〜現在:
-                <span class="paywall-inline" data-paywall-id="history-3">
-                  <button class="unlock-btn">解除 ¥50</button>
-                  <span class="paywall-content locked">ADKマーケティング・ソリューションズ</span>
-                </span>
-              </li>
-
-              <li>2023年:
-                <span class="paywall-inline" data-paywall-id="history-4">
-                  <button class="unlock-btn">解除 ¥50</button>
-                  <span class="paywall-content locked">ヤングライオンズ/スパイクス2024 デジタル部門シルバー</span>
-                </span>
-              </li>
-
-              <li>2024年: Young Spikes Digital Competition 2024
-                <span class="paywall-inline" data-paywall-id="history-5">
-                  <button class="unlock-btn">解除 ¥50</button>
-                  <span class="paywall-content locked">Shortlisted</span>
-                </span>
-              </li>
-
-              <li>2025年:
-                <span class="paywall-inline" data-paywall-id="history-6">
-                  <button class="unlock-btn">解除 ¥50</button>
-                  <span class="paywall-content locked">TOKYO MIDTOWN AWARD 2025 デザインコンペ ファイナリスト</span>
-                </span>
-              </li>
+              <li data-randomize>2019年〜2023年: 早稲田大学 政治経済学部</li>
+              <li data-randomize>2019年〜2022年: 角川ドワンゴ学園インターン</li>
+              <li data-randomize>2023年〜現在: ADKマーケティング・ソリューションズ</li>
+              <li data-randomize>2023年: ヤングライオンズ/スパイクス2024 デジタル部門シルバー</li>
+              <li data-randomize>2024年: Young Spikes Digital Competition 2024 Shortlisted</li>
+              <li data-randomize>2025年: TOKYO MIDTOWN AWARD 2025 デザインコンペ ファイナリスト</li>
             </ul>
           </section>
 
           <!-- 連絡先 -->
           <section id="contact">
-            <h2>連絡先</h2>
+            <h2 data-randomize>連絡先</h2>
             <ul>
-              <li>mail:
-                <span class="paywall-inline" data-paywall-id="contact-mail">
-                  <button class="unlock-btn">解除 ¥50</button>
-                  <span class="paywall-content locked">motto.kwn@gmail.com</span>
-                </span>
-              </li>
-              <li>tel:
-                <span class="paywall-inline" data-paywall-id="contact-tel">
-                  <button class="unlock-btn">解除 ¥50</button>
-                  <span class="paywall-content locked">080-2644-0894</span>
-                </span>
-              </li>
-              <li>instagram:
-                <span class="paywall-inline" data-paywall-id="contact-ig">
-                  <button class="unlock-btn">解除 ¥50</button>
-                  <span class="paywall-content locked">k.moeto</span>
-                </span>
-              </li>
-              <li>note:
-                <span class="paywall-inline" data-paywall-id="contact-note">
-                  <button class="unlock-btn">解除 ¥50</button>
-                  <span class="paywall-content locked"><a href="https://note.com/balenciagatrump"
-                      class="paywall-link">https://note.com/balenciagatrump</a></span>
-                </span>
-              </li>
+              <li data-randomize>mail: motto.kwn@gmail.com</li>
+              <li data-randomize>tel: 080-2644-0894</li>
+              <li data-randomize>instagram: k.moeto</li>
+              <li data-randomize>note: <a href="https://note.com/balenciagatrump">https://note.com/balenciagatrump</a></li>
             </ul>
           </section>
 
