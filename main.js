@@ -32,4 +32,20 @@ document.addEventListener('DOMContentLoaded', () => {
     el.style.opacity = rand(0.6, 1).toFixed(2);
     el.style.textIndent = Math.floor(rand(0, 40)) + 'px';
   });
+
+  // プロフィール列の位置をランダム化
+  const container = document.querySelector('.profile-container');
+  const leftCol = document.querySelector('.left-column');
+  const rightCol = document.querySelector('.right-column');
+  if (container && leftCol && rightCol) {
+    // 左右カラムの順序をランダムに入れ替え
+    if (Math.random() > 0.5) {
+      leftCol.style.order = '2';
+      rightCol.style.order = '1';
+    }
+    // flex-directionをランダム（横並び or 縦並び）
+    container.style.flexDirection = pick(['row', 'column', 'row-reverse', 'column-reverse']);
+    // align-itemsをランダム
+    container.style.alignItems = pick(['flex-start', 'center', 'flex-end']);
+  }
 });
